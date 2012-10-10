@@ -12,17 +12,11 @@ Ext.define('SFC.controller.Flashcards', {
     init: function() {
         console.log('Initialized Flashcards! This happens before the Application launch function is called');
         this.control({
-            'viewport > panel': {
-                render: this.onPanelRendered
-            },
             'button[action=next]': {
-                click: this.doNextWord
+                click: this.doNextWord,
+                render: this.doNextWord
             }
         });
-    },
-
-    onPanelRendered: function() {
-        console.log('The panel was rendered');
     },
 
     doNextWord: function(button) {
@@ -32,6 +26,10 @@ Ext.define('SFC.controller.Flashcards', {
         // Ext.ComponentQuery.query("#flashWord")[0].body.update(nextWord);
         var v = button.up('flashcardshow');
         v.updateWord(nextWord);
+        /*
+        var b = Ext.ComponentQuery.query("#nextButton")[0];
+        console.log(b);
+        */
     }
 
 });

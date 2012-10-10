@@ -10,14 +10,17 @@ Ext.define('SFC.view.flashcard.Show' ,{
 
     items : [
         {
-            itemId: 'flashWord',
+            itemId: 'wordPanel',
             xtype: 'panel',
-            layout: 'fit',
+            layout: {
+                type: 'hbox',
+                align: 'stretch',
+                pack: 'center'
+            },
             title: 'Spanish Flashcards for Atticus',
-            html: '<div style="display: table-cell; vertical-align: middle;">palabra</div>',
-            bodyStyle: 'text-align: center; display: table;  font-size: 96px; background:#ffc;',
             tools: [
                 {
+                    /*
                     xtype: 'button',
                     action: 'next',
                     text: 'Change word',
@@ -27,6 +30,22 @@ Ext.define('SFC.view.flashcard.Show' ,{
                         // var nextWord = Ext.data.StoreManager.getByKey("SpanishWords").getAt(1).get("word");
                         // this.ownerCt.getComponent("flashWord").body.update(nextWord)
                     }
+                    */
+                }
+            ],
+            items: [
+                {
+                    xtype: 'panel',
+                    bodyStyle: 'text-align: center; display: table;  font-size: 96px; background:#ffc;',
+                    itemId: 'flashWord',
+                    flex: '1',
+                    html: ''
+                },
+                {
+                    xtype: 'button',
+                    itemId: 'nextButton',
+                    action: 'next',
+                    text: 'Siguiente palabra'
                 }
             ]
         }
@@ -39,6 +58,7 @@ Ext.define('SFC.view.flashcard.Show' ,{
 
     updateWord: function(newWord) {
         var s = '<div style="display: table-cell; vertical-align: middle;">' + newWord+ '</div>';
-        this.getComponent("flashWord").body.update(s);
+        var o = this.getComponent("wordPanel").getComponent("flashWord");
+        o.update(s);
     }
 });
