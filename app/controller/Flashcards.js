@@ -17,9 +17,6 @@ Ext.define('SFC.controller.Flashcards', {
             },
             'button[action=next]': {
                 click: this.doNextWord
-            },
-            'panel': {
-                tap: this.doNextWord
             }
         });
     },
@@ -28,12 +25,13 @@ Ext.define('SFC.controller.Flashcards', {
         console.log('The panel was rendered');
     },
 
-    doNextWord: function() {
+    doNextWord: function(button) {
         var words = Ext.data.StoreManager.getByKey("SpanishWords");
         var i = Math.round(Math.random() * (words.getCount()-1));
-        var nextWord = '<div style="display: table-cell; vertical-align: middle;">' + Ext.data.StoreManager.getByKey("SpanishWords").getAt(i).get("word") + '</div>';
-
-        Ext.ComponentQuery.query("#flashWord")[0].body.update(nextWord);
+        var nextWord = Ext.data.StoreManager.getByKey("SpanishWords").getAt(i).get("word");
+        // Ext.ComponentQuery.query("#flashWord")[0].body.update(nextWord);
+        var v = button.up('flashcardshow');
+        v.updateWord(nextWord);
     }
 
 });

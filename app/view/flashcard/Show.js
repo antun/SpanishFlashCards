@@ -24,10 +24,8 @@ Ext.define('SFC.view.flashcard.Show' ,{
                     scale: 'large',
                     handler: function() {
                         // WORKS:
-                        /*
-                        var nextWord = Ext.data.StoreManager.getByKey("SpanishWords").getAt(1).get("word");
-                        this.ownerCt.getComponent("flashWord").body.update(nextWord)
-                        */
+                        // var nextWord = Ext.data.StoreManager.getByKey("SpanishWords").getAt(1).get("word");
+                        // this.ownerCt.getComponent("flashWord").body.update(nextWord)
                     }
                 }
             ]
@@ -37,6 +35,10 @@ Ext.define('SFC.view.flashcard.Show' ,{
 
     initComponent: function() {
         this.callParent(arguments);
-        //console.log(Ext.data.StoreManager.getByKey("SpanishWords").getAt(1).get("word") );
+    },
+
+    updateWord: function(newWord) {
+        var s = '<div style="display: table-cell; vertical-align: middle;">' + newWord+ '</div>';
+        this.getComponent("flashWord").body.update(s);
     }
 });
