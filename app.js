@@ -1,4 +1,8 @@
 Ext.application({
+    models: ["Preference"],
+
+    controllers: ["Preference"],
+
     name: 'SFCT',
 
     requires: [
@@ -6,10 +10,11 @@ Ext.application({
     ],
 
     stores: [
-        'SpanishWords'
+        'SpanishWords',
+        'SpanishWordsFirst'
     ],
 
-    views: ['Main'],
+    views: ['Main', 'Flashcard', 'Preference'],
 
     icon: {
         '57': 'resources/icons/Icon.png',
@@ -36,6 +41,12 @@ Ext.application({
         // Initialize the main view
         Ext.Viewport.add(Ext.create('SFCT.view.Main'));
 
+        // Setup a model for reading/writing preferences.
+        this.prefModel = Ext.create('SFCT.model.Preference');
+        this.prefModel.load();
+        console.log("----- Preferences model created -----", this.prefModel.get('level_1'));
+
+
         var b = Ext.ComponentQuery.query("#mainScreen")[0];
         b.doNext();
     },
@@ -50,5 +61,7 @@ Ext.application({
                 }
             }
         );
-    }
+    }, 
+
+    prefModel: null
 });
