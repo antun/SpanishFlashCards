@@ -1,7 +1,7 @@
 Ext.application({
     models: ["Preference"],
 
-    controllers: ["Preference"],
+    controllers: ["Flashcards", "Preference"],
 
     name: 'SFCT',
 
@@ -10,8 +10,9 @@ Ext.application({
     ],
 
     stores: [
-        'SpanishWords',
-        'SpanishWordsFirst'
+        'SpanishWordsK',
+        'SpanishWordsFirst',
+        'SpanishWordsSecond'
     ],
 
     views: ['Main', 'Flashcard', 'Preference'],
@@ -44,11 +45,6 @@ Ext.application({
         // Setup a model for reading/writing preferences.
         this.prefModel = Ext.create('SFCT.model.Preference');
         this.prefModel.load();
-        console.log("----- Preferences model created -----", this.prefModel.get('level_1'));
-
-
-        var b = Ext.ComponentQuery.query("#mainScreen")[0];
-        b.doNext();
     },
 
     onUpdated: function() {

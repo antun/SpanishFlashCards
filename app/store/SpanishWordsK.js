@@ -1,4 +1,4 @@
-Ext.define('SFCT.store.SpanishWords', {
+Ext.define('SFCT.store.SpanishWordsK', {
     extend: 'Ext.data.Store',
     fields: ['word', 'english'],
     data: [

@@ -19,22 +19,12 @@ Ext.define("SFCT.view.Flashcard", {
             docked: 'right',
             xtype: 'button',
             text: 'Next',
-            handler: function () {
-                this.parent.doNext();
-            }
+            action: 'next'
         }
         ],
 
         html: [
         ].join("")
-    },
-
-    doNext: function() {
-        
-        var words = Ext.data.StoreManager.getByKey("SpanishWords");
-        var i = Math.round(Math.random() * (words.getCount()-1));
-        var nextWord = Ext.data.StoreManager.getByKey("SpanishWords").getAt(i).get("word");
-        this.updateWord(nextWord);
     },
 
     updateWord: function(newWord) {
