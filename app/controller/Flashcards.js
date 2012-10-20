@@ -10,7 +10,6 @@ Ext.define('SFCT.controller.Flashcards', {
             'button[action=next]': {
                 tap: 'doNext'
             }
-            
         }
     },
     

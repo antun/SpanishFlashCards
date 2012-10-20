@@ -1,5 +1,5 @@
 Ext.application({
-    models: ["Preference"],
+    models: ["Word", "Preference"],
 
     controllers: ["Flashcards", "Preference"],
 
