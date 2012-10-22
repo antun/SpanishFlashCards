@@ -17,7 +17,6 @@ Ext.define("SFCT.view.Flashcard", {
         items: [
             {
                 xtype: 'container',
-                itemId: 'wordContainer',
                 layout: {
                     type: 'vbox',
                     pack: 'center'
@@ -40,7 +39,13 @@ Ext.define("SFCT.view.Flashcard", {
     },
 
     updateWord: function(newWord) {
-        var s = '<div style="font-size: 72px">' + newWord+ '</div>';
+        var fontSize = '72';
+        // This will get the div contents: console.log(c.element.dom.firstChild);
+        // Very crude fix to avoid long words spilling outside visible area
+        if (newWord.length > 7) {
+            fontSize = '58';
+        }
+        var s = '<div style="font-size: '+fontSize+'px">' + newWord+ '</div>';
         var c = Ext.ComponentQuery.query('#wordContainer')[0];
         c.setHtml(s);
     }
