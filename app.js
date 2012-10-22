@@ -15,7 +15,7 @@ Ext.application({
         'SpanishWordsSecond'
     ],
 
-    views: ['Main', 'Flashcard', 'Preference'],
+    views: ['Main', 'Flashcard', 'Preference', 'About'],
 
     icon: {
         '57': 'resources/icons/Icon.png',

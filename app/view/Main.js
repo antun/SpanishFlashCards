@@ -20,6 +20,10 @@ Ext.define("SFCT.view.Main", {
             {
                 xtype: 'preferencepanel',
                 iconCls: 'settings'
+            },
+            {
+                xtype: 'aboutpanel',
+                iconCls: 'info'
             }
         ]
     }
