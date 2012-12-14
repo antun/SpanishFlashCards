@@ -42,7 +42,9 @@ Ext.define('SFCT.controller.Preference', {
             // TODO: Rewrite, since now there will be multiple languages.
             // Make sure at least one is always checked.
             if (!cbx.isChecked()) {
-                var allCheckboxes = Ext.ComponentQuery.query('preferencepanel checkboxfield');
+                var prefModel = this.getApplication().prefModel;
+                var language = prefModel.get('lang');
+                var allCheckboxes = Ext.ComponentQuery.query('preferencepanel fieldset[name="levelSet_'+language+'"] checkboxfield');
                 var anyChecked = false;
                 for (var i=0; i<allCheckboxes.length; i++) {
                     var c = allCheckboxes[i];
@@ -102,11 +104,11 @@ Ext.define('SFCT.controller.Preference', {
 
         var languages = this.getLanguages();
         for (var i in languages) {
-            var itemId = 'levelSet_' + languages[i]["value"];
-            Ext.ComponentQuery.query('preferencepanel [itemId="'+itemId+'"]')[0].hide();
+            var itemName = 'levelSet_' + languages[i]["value"];
+            Ext.ComponentQuery.query('preferencepanel [name="'+itemName+'"]')[0].hide();
         }
         var currentLanguage = prefModel.get('lang');
-        var query = 'preferencepanel [itemId="levelSet_'+currentLanguage+'"]';
+        var query = 'preferencepanel [name="levelSet_'+currentLanguage+'"]';
         Ext.ComponentQuery.query(query)[0].show();
 
         var selectBox = Ext.ComponentQuery.query('preferencepanel [name="languageSelect"]')[0];

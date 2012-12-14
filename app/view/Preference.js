@@ -34,7 +34,7 @@ Ext.define("SFCT.view.Preference", {
                     {
                         xtype: 'fieldset',
                         title: 'Level (Spanish)',
-                        itemId: 'levelSet_spanish',
+                        name: 'levelSet_spanish',
                         items: [
                             {
                                 xtype: 'checkboxfield',
@@ -58,7 +58,7 @@ Ext.define("SFCT.view.Preference", {
                     {
                         xtype: 'fieldset',
                         title: 'Level (English)',
-                        itemId: 'levelSet_english',
+                        name: 'levelSet_english',
                         items: [
                             {
                                 xtype: 'checkboxfield',
