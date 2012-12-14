@@ -12,7 +12,11 @@ Ext.application({
     stores: [
         'SpanishWordsK',
         'SpanishWordsFirst',
-        'SpanishWordsSecond'
+        'SpanishWordsSecond',
+        'EnglishWordsK',
+        'EnglishWordsFirst',
+        'EnglishWordsSecond',
+        'EnglishWordsThird'
     ],
 
     views: ['Main', 'Flashcard', 'Preference', 'About'],

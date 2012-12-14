@@ -21,25 +21,65 @@ Ext.define("SFCT.view.Preference", {
                 
                 items: [
                     {
+                        xtype: 'selectfield',
+                        name: 'languageSelect',
+                        label: 'Language',
+                        options: [
+                            {text: 'Spanish',  value: 'spanish'},
+                            {text: 'English', value: 'english'},
+                            {text: 'Chinese',  value: 'chinese'}
+                        ]
+                    },
+                    
+                    {
                         xtype: 'fieldset',
-                        title: 'Level',
-
+                        title: 'Level (Spanish)',
+                        itemId: 'levelSet_spanish',
                         items: [
                             {
                                 xtype: 'checkboxfield',
-                                name: 'level_kCheck',
+                                name: 'level_k_esCheck',
                                 label: 'Kindergarten'
 
                             },
                             {
                                 xtype: 'checkboxfield',
-                                name: 'level_1Check',
+                                name: 'level_1_esCheck',
                                 label: 'First Grade'
                             },
                             {
                                 xtype: 'checkboxfield',
-                                name: 'level_2Check',
+                                name: 'level_2_esCheck',
                                 label: 'Second Grade'
+                            }
+                        ]
+                    },
+
+                    {
+                        xtype: 'fieldset',
+                        title: 'Level (English)',
+                        itemId: 'levelSet_english',
+                        items: [
+                            {
+                                xtype: 'checkboxfield',
+                                name: 'level_k_enCheck',
+                                label: 'Kindergarten'
+
+                            },
+                            {
+                                xtype: 'checkboxfield',
+                                name: 'level_1_enCheck',
+                                label: 'First Grade'
+                            },
+                            {
+                                xtype: 'checkboxfield',
+                                name: 'level_2_enCheck',
+                                label: 'Second Grade'
+                            },
+                            {
+                                xtype: 'checkboxfield',
+                                name: 'level_3_enCheck',
+                                label: 'Third Grade'
                             }
                         ]
                     }

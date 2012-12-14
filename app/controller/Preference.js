@@ -10,7 +10,10 @@ Ext.define('SFCT.controller.Preference', {
             
         },
         control: {
-            'preferencepanel fieldset checkboxfield': {
+            'preferencepanel selectfield': {
+                change: 'handleLanguageChoice'
+            },
+            'preferencepanel checkboxfield': {
                 check: 'handleCheck',
                 uncheck: 'handleCheck'
             },
@@ -19,62 +22,90 @@ Ext.define('SFCT.controller.Preference', {
             }
         }
     },
+
+    isDuringSetup: false,
     
     //called when the Application is launched, remove if not needed
     launch: function(app) {
         
     },
 
+    handleLanguageChoice: function(x) {
+        if (!this.isDuringSetup) {
+            this.savePreferences();
+            this.restorePreferences();
+        }
+    },
+
     handleCheck: function (cbx) {
-        // Make sure at least one is always checked.
-        if (!cbx.isChecked()) {
-            var allCheckboxes = Ext.ComponentQuery.query('preferencepanel checkboxfield');
-            var anyChecked = false;
-            for (var i=0; i<allCheckboxes.length; i++) {
-                var c = allCheckboxes[i];
-                if (c.isChecked()) {
-                    anyChecked = true;
-                    break;
+        if (!this.isDuringSetup) {
+            // TODO: Rewrite, since now there will be multiple languages.
+            // Make sure at least one is always checked.
+            if (!cbx.isChecked()) {
+                var allCheckboxes = Ext.ComponentQuery.query('preferencepanel checkboxfield');
+                var anyChecked = false;
+                for (var i=0; i<allCheckboxes.length; i++) {
+                    var c = allCheckboxes[i];
+                    if (c.isChecked()) {
+                        anyChecked = true;
+                        break;
+                    }
+                }
+                if (!anyChecked) {
+                    cbx.check(true);
                 }
             }
-            if (!anyChecked) {
-                cbx.check(true);
-            }
+            this.savePreferences();
         }
-        this.savePreferences();
     },
 
     savePreferences: function () {
-        var level_kChecked =  Ext.ComponentQuery.query('preferencepanel checkboxfield[name="level_kCheck"]')[0].isChecked();
-        var level_1Checked =  Ext.ComponentQuery.query('preferencepanel checkboxfield[name="level_1Check"]')[0].isChecked();
-        var level_2Checked =  Ext.ComponentQuery.query('preferencepanel checkboxfield[name="level_2Check"]')[0].isChecked();
-        
         var prefModel = this.getApplication().prefModel;
-        prefModel.set('level_k', level_kChecked);
-        prefModel.set('level_1', level_1Checked);
-        prefModel.set('level_2', level_2Checked);
+        for (var cookieName in this.cookieCheckboxMap) {
+            var checkBoxName = this.cookieCheckboxMap[cookieName];
+            var isChecked = Ext.ComponentQuery.query('preferencepanel checkboxfield[name="'+checkBoxName+'"]')[0].isChecked();
+            prefModel.set(cookieName, isChecked);
+        }
+        var lang = Ext.ComponentQuery.query('preferencepanel [name="languageSelect"]')[0].getValue();
+        prefModel.set('lang', lang);
         prefModel.save();
     },
 
+    cookieCheckboxMap: {
+        // TODO: Add isdefault option here.
+        'level_k_es' : 'level_k_esCheck',
+        'level_1_es' : 'level_1_esCheck',
+        'level_2_es' : 'level_2_esCheck',
+        'level_k_en' : 'level_k_enCheck',
+        'level_1_en' : 'level_1_enCheck',
+        'level_2_en' : 'level_2_enCheck',
+        'level_3_en' : 'level_3_enCheck'
+    },
+
     restorePreferences: function(obj) {
+        this.isDuringSetup = true;
         var prefModel = this.getApplication().prefModel;
-        var level_kChecked =  prefModel.get('level_k');
-        var level_1Checked =  prefModel.get('level_1');
-        var level_2Checked =  prefModel.get('level_2');
-        if (level_kChecked) {
-            Ext.ComponentQuery.query('preferencepanel checkboxfield[name="level_kCheck"]')[0].check();
-        } else {
-            Ext.ComponentQuery.query('preferencepanel checkboxfield[name="level_kCheck"]')[0].uncheck();
+
+        for (var cookieName in this.cookieCheckboxMap) {
+            var checkBoxName = this.cookieCheckboxMap[cookieName];
+            if (prefModel.get(cookieName) === true) {
+                Ext.ComponentQuery.query('preferencepanel checkboxfield[name="'+checkBoxName+'"]')[0].check();
+            } else {
+                Ext.ComponentQuery.query('preferencepanel checkboxfield[name="'+checkBoxName+'"]')[0].uncheck();
+            }
         }
-        if (level_1Checked) {
-            Ext.ComponentQuery.query('preferencepanel checkboxfield[name="level_1Check"]')[0].check();
-        } else {
-            Ext.ComponentQuery.query('preferencepanel checkboxfield[name="level_1Check"]')[0].uncheck();
+        var languages = ['spanish', 'english']; // TODO: Fix this so it is loaded from the combobox
+        for (var i in languages) {
+            var itemId = 'levelSet_' + languages[i];
+            Ext.ComponentQuery.query('preferencepanel [itemId="'+itemId+'"]')[0].hide();
         }
-        if (level_2Checked) {
-            Ext.ComponentQuery.query('preferencepanel checkboxfield[name="level_2Check"]')[0].check();
-        } else {
-            Ext.ComponentQuery.query('preferencepanel checkboxfield[name="level_2Check"]')[0].uncheck();
-        }
+        var currentLanguage = prefModel.get('lang');
+        var query = 'preferencepanel [itemId="levelSet_'+currentLanguage+'"]';
+        Ext.ComponentQuery.query(query)[0].show();
+
+        var selectBox = Ext.ComponentQuery.query('preferencepanel [name="languageSelect"]')[0];
+        selectBox.setValue(currentLanguage);
+
+        this.isDuringSetup = false;
     }
 });
