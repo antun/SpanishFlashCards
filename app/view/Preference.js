@@ -6,7 +6,8 @@ Ext.define("SFCT.view.Preference", {
     requires: [
         'Ext.TitleBar',
         'Ext.form.FieldSet',
-        'Ext.form.Checkbox'
+        'Ext.form.Checkbox',
+        'Ext.field.Select'
     ],
 
     config: {
@@ -26,8 +27,7 @@ Ext.define("SFCT.view.Preference", {
                         label: 'Language',
                         options: [
                             {text: 'Spanish',  value: 'spanish'},
-                            {text: 'English', value: 'english'},
-                            {text: 'Chinese',  value: 'chinese'}
+                            {text: 'English', value: 'english'}
                         ]
                     },
                     

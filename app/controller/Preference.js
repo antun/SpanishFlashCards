@@ -82,6 +82,11 @@ Ext.define('SFCT.controller.Preference', {
         'level_3_en' : 'level_3_enCheck'
     },
 
+    getLanguages: function() {
+        var languages = Ext.ComponentQuery.query('preferencepanel selectfield[name="languageSelect"]')[0].getOptions();
+        return languages;
+    },
+
     restorePreferences: function(obj) {
         this.isDuringSetup = true;
         var prefModel = this.getApplication().prefModel;
@@ -94,9 +99,10 @@ Ext.define('SFCT.controller.Preference', {
                 Ext.ComponentQuery.query('preferencepanel checkboxfield[name="'+checkBoxName+'"]')[0].uncheck();
             }
         }
-        var languages = ['spanish', 'english']; // TODO: Fix this so it is loaded from the combobox
+
+        var languages = this.getLanguages();
         for (var i in languages) {
-            var itemId = 'levelSet_' + languages[i];
+            var itemId = 'levelSet_' + languages[i]["value"];
             Ext.ComponentQuery.query('preferencepanel [itemId="'+itemId+'"]')[0].hide();
         }
         var currentLanguage = prefModel.get('lang');
