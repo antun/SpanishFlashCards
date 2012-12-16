@@ -5,26 +5,24 @@ Ext.define('SFCT.model.Preference', {
     
     config: {
         fields: [
-            {name: 'lang', type: 'string'},
-            {name: 'level_k_es', type: 'boolean'},
-            {name: 'level_1_es', type: 'boolean'},
-            {name: 'level_2_es', type: 'boolean'},
-            {name: 'level_k_en', type: 'boolean'},
-            {name: 'level_1_en', type: 'boolean'},
-            {name: 'level_2_en', type: 'boolean'},
-            {name: 'level_3_en', type: 'boolean'}
+            {name: 'lang', type: 'string', default: 'spanish'},
+            {name: 'level_k_es', type: 'boolean', default: true},
+            {name: 'level_1_es', type: 'boolean', default: false},
+            {name: 'level_2_es', type: 'boolean', default: false},
+            {name: 'level_k_en', type: 'boolean', default: true},
+            {name: 'level_1_en', type: 'boolean', default: false},
+            {name: 'level_2_en', type: 'boolean', default: false},
+            {name: 'level_3_en', type: 'boolean', default: false}
         ]
     },
 
     serialize: function() {
-        var s = 'lang:' + this.get('lang');
-        s += '|level_k_es:' + this.get('level_k_es');
-        s += '|level_1_es:' + this.get('level_1_es');
-        s += '|level_2_es:' + this.get('level_2_es');
-        s += '|level_k_en:' + this.get('level_k_en');
-        s += '|level_1_en:' + this.get('level_1_en');
-        s += '|level_2_en:' + this.get('level_2_en');
-        s += '|level_3_en:' + this.get('level_3_en');
+        var nameValuePairs = [];
+        for (var i in this.config.fields) {
+            var fieldName = this.config.fields[i]['name'];
+            nameValuePairs.push(fieldName + ':' + this.get(fieldName));
+        }
+        var s = nameValuePairs.join('|');
         return s;
     },
 
@@ -41,49 +39,13 @@ Ext.define('SFCT.model.Preference', {
             for (var i=0; i<cComponents.length; i++) {
                 var cComponentName = cComponents[i].split(':')[0].trim();
                 var cComponentVal = cComponents[i].split(':')[1].trim();
-                switch (cComponentName) {
-                    case 'lang':
-                        this.set('lang', cComponentVal);
-                    break;
-                    case 'level_k_es':
-                        this.set('level_k_es', cComponentVal);
-                    break;
-                    case 'level_1_es':
-                        this.set('level_1_es', cComponentVal);
-                    break;
-                    case 'level_2_es':
-                        this.set('level_2_es', cComponentVal);
-                    break;
-                    /* Backwards-compatibility */
-                    case 'level_k':
-                        this.set('level_k_es', cComponentVal);
-                    break;
-                    case 'level_1':
-                        this.set('level_1_es', cComponentVal);
-                    break;
-                    case 'level_2':
-                        this.set('level_2_es', cComponentVal);
-                    break;
-                    /* /Backwards-compatibility */
-                    case 'level_k_en':
-                        this.set('level_k_en', cComponentVal);
-                    break;
-                    case 'level_1_en':
-                        this.set('level_1_en', cComponentVal);
-                    break;
-                    case 'level_2_en':
-                        this.set('level_2_en', cComponentVal);
-                    break;
-                    case 'level_3_en':
-                        this.set('level_3_en', cComponentVal);
-                    break;
-                }
+                this.set(cComponentName, cComponentVal);
             }
         } else {
             // Use defaults
             this.setCookieDefaults();
         }
-        // If the cookie string is broken, reset defaults.
+        // Sanity-check the set cookie.
         for (var i in this.config.fields) {
             var cookiePart = this.config.fields[i];
             if (this.get(cookiePart["name"]) == null) {
@@ -94,14 +56,12 @@ Ext.define('SFCT.model.Preference', {
     },
 
     setCookieDefaults: function() {
-        this.set('lang', 'spanish');
-        this.set('level_k_es', true);
-        this.set('level_1_es', false);
-        this.set('level_2_es', false);
-        this.set('level_k_en', true);
-        this.set('level_1_en', false);
-        this.set('level_2_en', false);
-        this.set('level_3_en', false);
+        console.log("resetting defaults");
+        for (var i in this.config.fields) {
+            var field = this.config.fields[i];
+            // {name: 'lang', type: 'string', default: 'spanish'},
+            this.set(field['name'], field['default']);
+        }
     },
 
     findCookieByName: function (needle) {
