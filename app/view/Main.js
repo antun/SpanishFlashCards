@@ -11,7 +11,7 @@ Ext.define("SFCT.view.Main", {
         {
             docked: 'top',
             xtype: 'titlebar',
-            title: 'Atticus\'s Spanish Flash Cards'
+            title: 'Atticus\'s Flash Cards'
         },
             {
                 xtype: 'flashcardpanel',
